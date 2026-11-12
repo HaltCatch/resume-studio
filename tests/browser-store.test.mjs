@@ -1,0 +1,20 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {createBrowserStore} from "../src/application/browser-store.ts";
+import {createDefaultResume} from "../src/domain/resume.ts";
+test("browser documents survive reload, reject stale saves, restore and delete",async()=>{
+ const values = new Map();
+ const storage = {getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)};
+ let api=createBrowserStore(storage);
+ const initial=await api.create({title:"Demo",data:createDefaultResume()});
+ const data=structuredClone(initial.data);data.contact.name="Demo User";
+ const saved=await api.update(initial.id,{title:"Edited",data,expectedUpdatedAt:initial.updatedAt});
+ await assert.rejects(api.update(initial.id,{title:"Stale",data,expectedUpdatedAt:initial.updatedAt}),/另一窗口/);
+ api=createBrowserStore(storage);
+ assert.equal((await api.get(saved.id)).data.contact.name,"Demo User");
+ assert.equal((await api.listVersions(saved.id)).length,2);
+ const restored=await api.restoreVersion(saved.id,"1");
+ assert.equal(restored.version,3);assert.equal(restored.title,"Demo");
+ await api.remove(saved.id);assert.equal((await api.list()).length,0);
+ await assert.rejects(api.get(saved.id));
+});

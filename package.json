@@ -1,0 +1,47 @@
+{
+  "name": "resume-studio",
+  "private": true,
+  "version": "0.2.0",
+  "packageManager": "pnpm@10.15.1",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --kill-others --names api,web --prefix-colors blue,green \"pnpm dev:server\" \"pnpm dev:web\"",
+    "dev:web": "vite --host 0.0.0.0",
+    "dev:server": "tsx watch src/server/index.ts",
+    "build": "pnpm build:web && pnpm build:server",
+    "build:web": "tsc --noEmit && vite build",
+    "build:server": "tsup src/server/index.ts --format esm --platform node --target node22 --out-dir dist-server --clean",
+    "start": "node dist-server/index.js",
+    "preview": "pnpm build && pnpm start",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "check": "pnpm test && pnpm build",
+    "build:pages": "VITE_BROWSER_ONLY=true pnpm build:web"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "concurrently": "^10.0.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "@fastify/helmet": "^13.1.0",
+    "@fastify/static": "^10.1.0",
+    "fastify": "^5.10.0",
+    "marked": "^18.0.7",
+    "pagedjs": "^0.4.3",
+    "playwright-core": "^1.61.1",
+    "zod": "^4.4.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HaltCatch/resume-studio.git"
+  }
+}

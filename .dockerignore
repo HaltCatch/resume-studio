@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-server
+data
+.git
+CoreCoder
+ops-docs
+ops-docs-config
+*.md
+!README.md

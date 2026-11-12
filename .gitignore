@@ -1,0 +1,18 @@
+node_modules/
+dist/
+dist-server/
+data/
+output/
+tmp/
+.pnpm-store/
+.tmp/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Local source references; the resume site is maintained as one standalone repository.
+CoreCoder/
+ops-docs/
+ops-docs-config/
+.claude/

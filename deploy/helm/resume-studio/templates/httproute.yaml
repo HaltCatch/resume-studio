@@ -1,0 +1,31 @@
+{{- if .Values.httpRoute.enabled }}
+# 集群入口是 Envoy Gateway（Gateway API）；TLS 在 NPM 终结，这里只按 hostname 分流。
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  parentRefs:
+    {{- toYaml .Values.httpRoute.parentRefs | nindent 4 }}
+  hostnames:
+    {{- $hosts := prepend (.Values.httpRoute.extraHosts | default list) (required "httpRoute.host is required" .Values.httpRoute.host) }}
+    {{- range $hosts }}
+    - {{ . | quote }}
+    {{- end }}
+  # 显式写出 API server 会补的默认值（matches / group / kind / weight），
+  # 否则 Argo CD 的 ServerSideApply 服务端 diff 会一直报 OutOfSync。
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: {{ .Release.Name }}
+          port: {{ .Values.service.port }}
+          weight: 1
+{{- end }}

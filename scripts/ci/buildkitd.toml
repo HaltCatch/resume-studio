@@ -1,0 +1,13 @@
+[worker.oci]
+  gc = true
+  max-parallelism = 1
+  reservedSpace = "256MB"
+  maxUsedSpace = "4GB"
+  minFreeSpace = "4GB"
+
+[registry."docker.io"]
+  mirrors = ["r5s-zot.example.com"]
+
+[history]
+  maxAge = 604800
+  maxEntries = 20

@@ -1,0 +1,61 @@
+replicaCount: 1
+
+deploymentStrategy:
+  type: Recreate
+
+image:
+  repository: github.com/HaltCatch/resume-studio
+  tag: "dev"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: gitea-auth
+
+service:
+  port: 80
+  targetPort: 8080
+
+httpRoute:
+  enabled: true
+  host: resume.example.com
+  # 额外 host
+  extraHosts: []
+  # 挂到集群共享 Gateway（Envoy Gateway）
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: public
+      namespace: envoy-gateway-system
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 96Mi
+  limits:
+    cpu: "1"
+    memory: 768Mi
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+probes:
+  path: /api/health
+  initialDelaySeconds: 3
+
+persistence:
+  enabled: true
+  mountPath: /data/resumes
+  size: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""

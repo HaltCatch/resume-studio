@@ -1,0 +1,142 @@
+/*
+ * 主题令牌（CSS 变量）：布局基底在各自代码块里声明默认值，
+ * 模板变体通过 .resume-document 的内联 style 覆盖（见 render/templates.ts 的 tokens）。
+ *   --accent-rule    页眉分隔线 / 主结构线颜色
+ *   --accent-ink     章节标题、技术栈标签等强调文字
+ *   --accent-soft    次级分隔线（h2 下划线）
+ *   --headline-ink   姓名下方求职标题
+ *   --name-ink       姓名颜色（缺省继承正文/banner）
+ *   --banner-bg/ink/muted、--flourish  仅 banner（editorial）基底使用
+ */
+.resume-document {
+  --accent-rule: #1c5942;
+  --accent-ink: #184e39;
+  --accent-soft: #b9cbc2;
+  --headline-ink: #315f4c;
+  color: #1e2421;
+  background: #fff;
+  padding: 14mm 16mm 15mm;
+  font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: calc(10pt * var(--density-font, 1));
+  line-height: 1.52;
+}
+
+.resume-header { padding-bottom: calc(6mm * var(--density-space, 1)); border-bottom: 2px solid var(--accent-rule); display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.name-block h1 { margin: 0; color: var(--name-ink, inherit); font-family: Georgia, "Songti SC", serif; font-size: 26pt; line-height: 1; letter-spacing: -.04em; }
+.name-block p { margin: 3mm 0 0; color: var(--headline-ink); font-weight: 700; font-size: 10.5pt; }
+.contact-line { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 2mm 5mm; max-width: 105mm; color: #525d58; font-size: 8.5pt; }
+.resume-document main { padding-top: calc(2mm * var(--density-space, 1)); }
+.resume-section { margin-top: calc(5mm * var(--density-space, 1)); }
+.resume-section h2 { margin: 0 0 calc(2.2mm * var(--density-space, 1)); padding-bottom: 1mm; border-bottom: 1px solid var(--accent-soft); color: var(--accent-ink); font-size: 11.5pt; letter-spacing: .08em; break-after: avoid; page-break-after: avoid; }
+.profile-summary, .entry-summary { margin: 0; }
+.resume-entry { margin-top: calc(3.3mm * var(--density-space, 1)); break-inside: avoid; page-break-inside: avoid; }
+.resume-entry:first-of-type { margin-top: 0; }
+.project-entry { break-inside: auto; page-break-inside: auto; }
+.project-entry .entry-intro { break-inside: avoid; page-break-inside: avoid; break-after: avoid; page-break-after: avoid; }
+.project-entry li { break-inside: avoid; page-break-inside: avoid; }
+.entry-heading, .education-row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.entry-heading h3 { margin: 0; font-size: 10.5pt; }
+.entry-role { display: inline; margin: 0 0 0 2mm; color: #54605a; font-size: 9pt; }
+.entry-heading time, .education-row time { white-space: nowrap; color: #59645e; font-size: 8.5pt; }
+.entry-summary { color: #3c4742; margin-top: calc(1.3mm * var(--density-space, 1)); }
+.resume-entry ul { margin: calc(1.3mm * var(--density-space, 1)) 0 0; padding-left: 4.5mm; }
+.resume-entry li { margin: calc(.8mm * var(--density-space, 1)) 0; padding-left: .5mm; }
+.tech-stack { margin: 1.4mm 0 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 1.1mm 2.5mm; color: #45534c; font-size: 8.4pt; }
+.tech-stack strong { color: var(--accent-ink); margin-right: 1mm; }
+.skill-row { display: grid; grid-template-columns: 25mm 1fr; gap: 3mm; margin: calc(1.2mm * var(--density-space, 1)) 0; }
+.skill-row strong { color: #25352e; }
+.skill-row p { margin: 0; color: #414c47; }
+.education-row { break-inside: avoid; page-break-inside: avoid; }
+.education-row strong { margin-right: 3mm; }
+.education-row span { color: #57625c; }
+
+.template-editorial {
+  --banner-bg: #183b32;
+  --banner-ink: #f8f3e8;
+  --banner-muted: #cfe3da;
+  --accent-ink: #183b32;
+  --flourish: #cf9d56;
+  padding: 0;
+}
+.template-editorial .resume-header { min-height: 49mm; padding: 12mm 16mm 9mm; border: 0; align-items: center; color: var(--banner-ink); background: var(--banner-bg); }
+.template-editorial .name-block h1 { font-size: 29pt; }
+.template-editorial .name-block p, .template-editorial .contact-line { color: var(--banner-muted); }
+.template-editorial main { padding: 5mm 16mm 15mm; }
+.template-editorial .resume-section h2 { border: 0; font-family: Georgia, "Songti SC", serif; font-size: 13pt; }
+.template-editorial .resume-section h2::after { content: ""; display: block; width: 12mm; height: 2px; margin-top: 1mm; background: var(--flourish); }
+.template-editorial .tech-stack span { padding: .4mm 1.5mm; border-radius: 99px; background: #f1eee6; }
+
+.template-engineering {
+  --accent-rule: #111;
+  --accent-ink: #111;
+  --accent-soft: #111;
+  --headline-ink: #222;
+  padding: 9mm 13mm 11mm;
+  color: #101010;
+  font-size: calc(8.7pt * var(--density-font, 1));
+  line-height: 1.36;
+}
+.template-engineering .resume-header { padding-bottom: 3mm; display: block; border-bottom: 1.5px solid var(--accent-rule); text-align: center; }
+.template-engineering .name-block h1 { font-family: Arial, "PingFang SC", sans-serif; font-size: 21pt; letter-spacing: .02em; }
+.template-engineering .name-block p { margin-top: 1.5mm; font-size: 9pt; }
+.template-engineering .contact-line { max-width: none; margin-top: 1.5mm; justify-content: center; gap: 1mm 4mm; color: #333; font-size: 7.8pt; }
+.template-engineering .resume-document main { padding-top: 0; }
+.template-engineering .resume-section { margin-top: calc(3mm * var(--density-space, 1)); }
+.template-engineering .resume-section h2 { margin-bottom: 1.3mm; padding-bottom: .5mm; border-bottom: 1px solid var(--accent-rule); font-size: 9.8pt; letter-spacing: .08em; text-transform: uppercase; }
+.template-engineering .resume-entry { margin-top: calc(1.7mm * var(--density-space, 1)); }
+.template-engineering .entry-heading h3 { font-size: 9.2pt; }
+.template-engineering .entry-role { color: #333; font-size: 8.2pt; font-style: italic; }
+.template-engineering .resume-entry ul { margin-top: .5mm; padding-left: 4mm; }
+.template-engineering .resume-entry li { margin: calc(.18mm * var(--density-space, 1)) 0; }
+.template-engineering .skill-row { grid-template-columns: 24mm 1fr; margin: .35mm 0; }
+.template-engineering .tech-stack { margin-top: .45mm; color: #222; font-size: 7.5pt; }
+
+.template-academic {
+  --accent-rule: #5c2525;
+  --accent-ink: #4d2020;
+  --accent-soft: #927775;
+  --headline-ink: #65504b;
+  --name-ink: #431b1b;
+  padding: 13mm 16mm 15mm;
+  color: #27221f;
+  font-family: Georgia, "Songti SC", "STSong", serif;
+  font-size: calc(9.5pt * var(--density-font, 1));
+  line-height: 1.55;
+}
+.template-academic .resume-header { padding-bottom: 5mm; display: block; border-bottom: 3px double var(--accent-rule); text-align: center; }
+.template-academic .name-block h1 { font-size: 27pt; font-weight: 500; letter-spacing: .04em; }
+.template-academic .name-block p { margin-top: 2mm; font-size: 10pt; font-weight: 400; }
+.template-academic .contact-line { max-width: none; margin-top: 2.5mm; justify-content: center; color: #554b47; }
+.template-academic .resume-section { margin-top: calc(4.5mm * var(--density-space, 1)); }
+.template-academic .resume-section h2 { margin-bottom: 2mm; padding: 0 0 1mm; font-size: 11pt; font-weight: 500; letter-spacing: .12em; }
+.template-academic .entry-heading h3 { font-size: 10pt; }
+.template-academic .entry-role { color: #675b56; font-style: italic; }
+
+/* 雅白现代：大留白单栏展示版。单一克制强调色只出现在姓名短线、
+   章节标记块、条目发丝线与技术栈淡染芯片上，其余交给留白。 */
+.template-gallery {
+  padding: 15mm 18mm 13mm;
+  color: #212722;
+  font-size: calc(9.8pt * var(--density-font, 1));
+  line-height: 1.6;
+}
+.template-gallery .resume-header { display: block; border: 0; padding-bottom: calc(7mm * var(--density-space, 1)); }
+.template-gallery .name-block h1 { font-size: 30pt; letter-spacing: -.02em; }
+.template-gallery .name-block h1::after { content: ""; display: block; width: 16mm; height: 1.4mm; margin-top: 2.5mm; background: var(--accent-rule); }
+.template-gallery .name-block p { margin-top: 3mm; font-size: 10.5pt; font-weight: 600; }
+.template-gallery .contact-line { max-width: none; margin-top: 2mm; justify-content: flex-start; gap: 1.5mm 2.8mm; color: #6b756f; }
+.template-gallery .contact-line span:not(:first-child)::before { content: "·"; margin-right: 2.8mm; color: #b3bcb6; }
+.template-gallery .resume-section { margin-top: calc(6.5mm * var(--density-space, 1)); }
+.template-gallery .resume-section h2 { position: relative; margin-bottom: calc(3mm * var(--density-space, 1)); padding: 0 0 0 4.4mm; border: 0; font-size: 10.5pt; letter-spacing: .22em; }
+.template-gallery .resume-section h2::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2.4mm; height: 2.4mm; background: var(--accent-rule); }
+.template-gallery .resume-entry { margin-top: calc(4mm * var(--density-space, 1)); border-left: 1px solid var(--accent-soft); padding-left: 3.8mm; }
+.template-gallery .education-row { border-left: 1px solid var(--accent-soft); padding-left: 3.8mm; }
+.template-gallery .entry-heading h3 { font-size: 10.5pt; }
+.template-gallery .entry-role { color: #68726c; }
+.template-gallery .tech-stack span { padding: .5mm 2mm; border-radius: 2mm; background: color-mix(in srgb, var(--accent-rule) 7%, #fff); color: color-mix(in srgb, var(--accent-ink) 82%, #000); }
+.template-gallery .skill-row { grid-template-columns: 27mm 1fr; }
+.template-gallery .skill-row strong { color: var(--accent-ink); }
+
+@media print {
+  .resume-document { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
